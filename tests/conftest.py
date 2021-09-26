@@ -15,26 +15,10 @@ def scope():
     return {"method": "GET", "type": "http", "headers": None}
 
 @pytest.fixture
-def fake_client(test_insertions):
+def fake_client():
     client = mongomock.MongoClient()
     db = client[DB_NAME]
-    # try:
-    #     with open(
-    #         Path(os.path.dirname(os.path.abspath(__file__)))
-    #         / "api/documentation/sql"
-    #         / "tests.sql",
-    #         "r",
-    #     ) as file:
-    #         raw_cursor.executescript(file.read())
-    # except FileNotFoundError:
-    #     pass
-
     return client
-
-
-@pytest.fixture()
-def test_insertions():
-    yield []
 
 
 @pytest.fixture()

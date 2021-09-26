@@ -1,23 +1,19 @@
 import asyncio
-import os
 
 import mongomock
-import pymongo
 import pytest
 
 from api.models.partner import Partner, GeoJSON
-from api.vars import DB_NAME
-
 
 
 @pytest.fixture(scope="class")
 def scope():
     return {"method": "GET", "type": "http", "headers": None}
 
+
 @pytest.fixture
 def fake_client():
     client = mongomock.MongoClient()
-    db = client[DB_NAME]
     return client
 
 

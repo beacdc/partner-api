@@ -78,3 +78,25 @@ def format_traceback() -> Dict[str, List[str]]:
         )
 
     return traceback_dict
+
+
+class PartnerNotFound(HTTPError):
+    def __init__(self, id: str, traceback: str = None):
+        super().__init__(
+            http_status=404,
+            title="Partner Not Found",
+            description=f"No partner found for the given id {id}",
+            translation=f"Nenhum parceiro encontrado para o id fornecido {id}",
+            exception=traceback,
+        )
+
+
+class NearestNotFound(HTTPError):
+    def __init__(self, long: float, lat: float, traceback: str = None):
+        super().__init__(
+            http_status=404,
+            title="Nearest Not Found",
+            description=f"Could not find any partner near the given location: {long}, {lat}",
+            translation=f"Não foi possível encontrar nenhum parceiro próxima da localização fornecida: {long}, {lat}",
+            exception=traceback,
+        )

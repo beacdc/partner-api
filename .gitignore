@@ -1,0 +1,26 @@
+# Python
+*.pyc
+.pytest_cache
+__pycache__
+
+# Environment
+env_*
+*_env
+*.env
+.venv
+venv
+
+# IDE and development files
+.vscode
+.idea
+*.log
+nohup.out
+
+# Temp files
+temp
+
+# Commit
+.commit
+
+# Secret files
+*credential*

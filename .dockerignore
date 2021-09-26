@@ -1,0 +1,41 @@
+# Python
+*.pyc
+__pycache__
+
+# Environment
+env_*
+*_env
+.venv
+*.env
+
+# IDE and development files
+*.vscode
+*.idea
+*.log
+nohup.out
+
+# Git files
+*.git
+*.gitignore
+*.gitmodules
+
+# Deploy files
+.dockerignore
+*/Dockerfile
+
+# Tests
+test/
+
+# Pre-commit
+.flake8
+.pre-commit-config.yaml
+pyproject.toml
+
+# CI
+.gitlab-ci.yml
+
+# Images
+*.gif
+
+# Readme
+README.md

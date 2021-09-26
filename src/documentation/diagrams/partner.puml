@@ -1,0 +1,15 @@
+@startuml
+
+class Partner {
+  _id: string
+  tradingName: string
+  ownerName: string
+  document: string
+  coverageArea: Object[GeoJSON]
+  address: Object[GeoJSON]
+  create_partner(partner_data)
+  load_partner(id: string)
+  search_nearest(lat: int, long: int)
+}
+
+@enduml

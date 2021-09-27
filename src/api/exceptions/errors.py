@@ -100,3 +100,25 @@ class NearestNotFound(HTTPError):
             translation=f"Não foi possível encontrar nenhum parceiro próxima da localização fornecida: {long}, {lat}",
             exception=traceback,
         )
+
+
+class InvalidDocumentNumber(HTTPError):
+    def __init__(self, document: str, traceback: str = None):
+        super().__init__(
+            http_status=400,
+            title="Bad Request",
+            description=f"Received partner document number is not valid. Document: {document}",
+            translation=f"Documento do parceiro enviado não é válid. Documento: {document}",
+            exception=traceback,
+        )
+
+
+class DuplicateDocumentNumber(HTTPError):
+    def __init__(self, document: str, traceback: str = None):
+        super().__init__(
+            http_status=400,
+            title="Bad Request",
+            description=f"Duplicate entry found for document number: {document}",
+            translation=f"Entrada duplicada para o número de documento: {document}",
+            exception=traceback,
+        )

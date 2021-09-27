@@ -1,7 +1,12 @@
 from pymongo import MongoClient
 
-from api.domains.partner_domain import partner_to_dict
-from api.exceptions.errors import PartnerNotFound, NearestNotFound
+from api.domains.partner_domain import partner_to_dict, validate_and_format_document
+from api.exceptions.errors import (
+    PartnerNotFound,
+    NearestNotFound,
+    InvalidDocumentNumber,
+    DuplicateDocumentNumber,
+)
 from api.models.partner import Partner
 from api.repositories.partner_repository import PartnerRepository
 
@@ -11,6 +16,12 @@ class PartnerService:
         self.repository = PartnerRepository(client=client)
 
     async def create_partner(self, partner: Partner) -> dict:
+        partner.document, is_valid = validate_and_format_document(partner.document)
+        if not is_valid:
+            raise InvalidDocumentNumber(document=partner.document)
+        duplicate_partner = self.repository.find_by_document(partner.document)
+        if duplicate_partner:
+            raise DuplicateDocumentNumber(document=partner.document)
         insert_id = await self.repository.insert(partner)
         partner.id = insert_id
         return partner.dict()
@@ -25,3 +36,4 @@ class PartnerService:
         partners = await self.repository.find_within(long=long, lat=lat)
         if not partners:
             raise NearestNotFound(long=long, lat=lat)
+        return partners

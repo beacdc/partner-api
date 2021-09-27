@@ -19,6 +19,10 @@ class PartnerRepository:
         result = self.collection.find_one({"_id": partner_id})
         return result
 
+    async def find_by_document(self, document: str) -> dict:
+        result = self.collection.find_one({"document": document})
+        return result
+
     async def find_within(self, long: float, lat: float) -> dict:
         result = self.collection.find(
             {

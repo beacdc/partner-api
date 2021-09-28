@@ -9,7 +9,7 @@ from api.vars import (
 )
 
 
-class MongoConnector:
+class MongoAdapter:
     path = f"mongodb+srv://{DB_USER}:{DB_PASSWORD}@{DB_CLUSTER}.qbwjl.mongodb.net/{DB_NAME}?retryWrites=true&w=majority"
     client: MongoClient
     db: Database

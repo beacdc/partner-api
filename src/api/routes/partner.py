@@ -2,7 +2,7 @@ from typing import Union
 
 from fastapi import APIRouter, Request
 
-from api.adapters.mongo_adapter import MongoConnector
+from api.adapters.mongo_adapter import MongoAdapter
 from api.exceptions.errors import DefaultError
 from api.models.partner import Partner
 from api.services.partner_service import PartnerService
@@ -22,13 +22,13 @@ router = APIRouter()
     status_code=201,
     tags=["Partner"],
 )
-async def partner_post(req: Request, partner_obj: Partner) -> Partner:
-    client = MongoConnector.client
+async def partner_post(req: Request, partner_obj: Partner):
+    client = MongoAdapter.client
     partner_service: PartnerService = PartnerService(client=client)
 
-    partner: Partner = await partner_service.create_partner(partner_obj)
+    response = await partner_service.create_partner(partner_obj)
 
-    return partner
+    return response
 
 
 @router.get(
@@ -43,13 +43,13 @@ async def partner_post(req: Request, partner_obj: Partner) -> Partner:
     status_code=200,
     tags=["Partner"],
 )
-async def partner_get(req: Request, partner_id) -> Union[Partner, None]:
-    client = MongoConnector.client
+async def partner_get(req: Request, partner_id):
+    client = MongoAdapter.client
     partner_service: PartnerService = PartnerService(client=client)
 
-    partner: Partner = await partner_service.search_partner(partner_id)
+    response = await partner_service.search_partner(partner_id)
 
-    return partner
+    return response
 
 
 @router.get(
@@ -64,12 +64,10 @@ async def partner_get(req: Request, partner_id) -> Union[Partner, None]:
     status_code=200,
     tags=["Partner"],
 )
-async def partner_get_nearest(
-    req: Request, lat: float, long: float
-) -> Union[Partner, None]:
-    client = MongoConnector.client
+async def partner_get_nearest(req: Request, lat: float, long: float):
+    client = MongoAdapter.client
     partner_service: PartnerService = PartnerService(client=client)
 
-    partner: Partner = await partner_service.find_nearest_partner(lat, long)
+    response = await partner_service.find_nearest_partner(lat, long)
 
-    return partner
+    return response

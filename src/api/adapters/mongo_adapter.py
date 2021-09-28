@@ -1,16 +1,11 @@
 import pymongo
 from pymongo import MongoClient
 from pymongo.database import Database
-from api.vars import (
-    DB_USER,
-    DB_PASSWORD,
-    DB_CLUSTER,
-    DB_NAME,
-)
+from api.vars import DB_USER, DB_PASSWORD, DB_CLUSTER, DB_NAME, DB_HOST
 
 
 class MongoAdapter:
-    path = f"mongodb+srv://{DB_USER}:{DB_PASSWORD}@{DB_CLUSTER}.qbwjl.mongodb.net/{DB_NAME}?retryWrites=true&w=majority"
+    path = f"mongodb+srv://{DB_USER}:{DB_PASSWORD}@{DB_CLUSTER}.{DB_HOST}/{DB_NAME}?retryWrites=true&w=majority"
     client: MongoClient
     db: Database
 

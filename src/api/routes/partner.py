@@ -23,8 +23,8 @@ router = APIRouter()
     tags=["Partner"],
 )
 async def partner_post(req: Request, partner_obj: Partner):
-    client = MongoAdapter.client
-    partner_service: PartnerService = PartnerService(client=client)
+    db = MongoAdapter.db
+    partner_service: PartnerService = PartnerService(db=db)
 
     response = await partner_service.create_partner(partner_obj)
 
@@ -44,8 +44,8 @@ async def partner_post(req: Request, partner_obj: Partner):
     tags=["Partner"],
 )
 async def partner_get(req: Request, partner_id):
-    client = MongoAdapter.client
-    partner_service: PartnerService = PartnerService(client=client)
+    db = MongoAdapter.db
+    partner_service: PartnerService = PartnerService(db=db)
 
     response = await partner_service.search_partner(partner_id)
 
@@ -53,7 +53,7 @@ async def partner_get(req: Request, partner_id):
 
 
 @router.get(
-    "/partner/",
+    "/partner",
     responses={
         400: {"model": DefaultError},
         401: {"model": DefaultError},
@@ -65,9 +65,9 @@ async def partner_get(req: Request, partner_id):
     tags=["Partner"],
 )
 async def partner_get_nearest(req: Request, lat: float, long: float):
-    client = MongoAdapter.client
-    partner_service: PartnerService = PartnerService(client=client)
+    db = MongoAdapter.db
+    partner_service: PartnerService = PartnerService(db=db)
 
-    response = await partner_service.find_nearest_partner(lat, long)
+    response = await partner_service.find_nearest_partner(lat=lat, long=long)
 
     return response

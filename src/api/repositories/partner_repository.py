@@ -1,22 +1,23 @@
 from typing import List, Union
 
-from pymongo import MongoClient
+from bson import ObjectId
 from pymongo.collection import Collection
+from pymongo.database import Database
 
 from api.models.partner import Partner
 
 
 class PartnerRepository:
-    def __init__(self, client: MongoClient) -> None:
-        self.client = client
-        self.collection: Collection = self.client.db["Partner"]
+    def __init__(self, db: Database) -> None:
+        self.db = db
+        self.collection: Collection = self.db["Partner"]
 
     async def insert(self, partner: Union[Partner, List[Partner]]):
         result = self.collection.insert_one(partner.dict(exclude_none=True))
         return result.inserted_id
 
     async def find_by_id(self, partner_id: str) -> dict:
-        result = self.collection.find_one({"_id": partner_id})
+        result = self.collection.find_one({"_id": ObjectId(partner_id)})
         return result
 
     async def find_by_document(self, document: str) -> dict:
@@ -24,13 +25,30 @@ class PartnerRepository:
         return result
 
     async def find_within(self, long: float, lat: float) -> dict:
-        result = self.collection.find(
+        result = self.collection.find_one(
             {
-                "coverageArea": {
-                    "$geoIntersects": {
-                        "$geometry": {"type": "Point", "coordinates": [long, lat]}
-                    }
-                }
+                "$and": [
+                    {
+                        "coverageArea": {
+                            "$geoIntersects": {
+                                "$geometry": {
+                                    "type": "Point",
+                                    "coordinates": [long, lat],
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "coverageArea": {
+                            "$near": {
+                                "$geometry": {
+                                    "type": "Point",
+                                    "coordinates": [long, lat],
+                                }
+                            }
+                        }
+                    },
+                ]
             }
         )
         return result

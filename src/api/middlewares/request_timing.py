@@ -5,19 +5,12 @@ from fastapi import Request, Response
 from starlette.responses import StreamingResponse
 
 from api.logging.logger import Logger
-from main import app
-
-
-@app.middleware("http")
-async def request_timing_middleware(request: Request, call_next):
-    request = await process_request(request)
-    response = await call_next(request)
-    response = await process_response(request, response)
-    return response
 
 
 async def process_request(request: Request) -> Request:
     request.state.start_time = datetime.now()
+    path_params = request.path_params
+    query_params = dict(request.query_params)
     try:
         request_body = await request.json()
     except Exception:
@@ -26,6 +19,8 @@ async def process_request(request: Request) -> Request:
     Logger.info(
         message=f"INCOMING REQUEST {request.method.upper()} {request.url.path}",
         payload=request_body,
+        path_params=path_params,
+        query_params=query_params,
     )
 
     return request

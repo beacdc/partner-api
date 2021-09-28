@@ -1,7 +1,12 @@
 import asyncio
+import sys
+from pathlib import Path
 
 import mongomock
 import pytest
+
+root = Path.cwd()
+sys.path.insert(1, str(root / "src"))
 
 from api.models.partner import Partner, GeoJSON
 
@@ -12,9 +17,10 @@ def scope():
 
 
 @pytest.fixture
-def fake_client():
+def fake_db():
     client = mongomock.MongoClient()
-    return client
+    db = client.db
+    return db
 
 
 @pytest.fixture()

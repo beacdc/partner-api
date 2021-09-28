@@ -23,7 +23,7 @@ class PartnerService:
         if duplicate_partner:
             raise DuplicateDocumentNumber(document=partner.document)
         insert_id = await self.repository.insert(partner)
-        partner.id = insert_id
+        partner.id = str(insert_id)
         return partner.dict()
 
     async def search_partner(self, partner_id: str) -> dict:

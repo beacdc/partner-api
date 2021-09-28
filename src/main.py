@@ -1,6 +1,8 @@
 import asyncio
 
 from fastapi import FastAPI
+
+from api.adapters.mongo_adapter import MongoConnector
 from api.routes.router import routes
 from api.logging.logger import Logger
 from fastapi.openapi.utils import get_openapi
@@ -12,6 +14,8 @@ loop = asyncio.get_event_loop()
 async def on_startup():
     Logger.start_logger()
     Logger.info(f"Service {SERVICE_NAME} starting...",)
+    connection = MongoConnector()
+    connection.create_engine()
 
 
 async def on_shutdown():

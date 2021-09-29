@@ -11,14 +11,9 @@ async def process_request(request: Request) -> Request:
     request.state.start_time = datetime.now()
     path_params = request.path_params
     query_params = dict(request.query_params)
-    try:
-        request_body = await request.json()
-    except Exception:
-        request_body = {}
 
     Logger.info(
         message=f"INCOMING REQUEST {request.method.upper()} {request.url.path}",
-        payload=request_body,
         path_params=path_params,
         query_params=query_params,
     )

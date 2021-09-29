@@ -25,9 +25,7 @@ router = APIRouter()
 async def partner_post(req: Request, partner_obj: Partner):
     db = MongoAdapter.db
     partner_service: PartnerService = PartnerService(db=db)
-
     response = await partner_service.create_partner(partner_obj)
-
     return response
 
 

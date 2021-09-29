@@ -16,7 +16,9 @@ class PartnerService:
         self.repository = PartnerRepository(db=db)
 
     async def create_partner(self, partner: Partner) -> dict:
-        partner.document, is_valid = validate_and_format_document(partner.document)
+        partner.document, is_valid = await validate_and_format_document(
+            partner.document
+        )
         if not is_valid:
             raise InvalidDocumentNumber(document=partner.document)
         duplicate_partner = await self.repository.find_by_document(partner.document)
@@ -30,10 +32,10 @@ class PartnerService:
         partner = await self.repository.find_by_id(partner_id)
         if not partner:
             raise PartnerNotFound(id=partner_id)
-        return partner_to_dict(partner)
+        return await partner_to_dict(partner)
 
     async def find_nearest_partner(self, long: float, lat: float):
         partner = await self.repository.find_within(long=long, lat=lat)
         if not partner:
             raise NearestNotFound(long=long, lat=lat)
-        return partner_to_dict(partner)
+        return await partner_to_dict(partner)

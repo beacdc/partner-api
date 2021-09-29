@@ -78,3 +78,47 @@ def format_traceback() -> Dict[str, List[str]]:
         )
 
     return traceback_dict
+
+
+class PartnerNotFound(HTTPError):
+    def __init__(self, id: str, traceback: str = None):
+        super().__init__(
+            http_status=404,
+            title="Partner Not Found",
+            description=f"No partner found for the given id {id}",
+            translation=f"Nenhum parceiro encontrado para o id fornecido {id}",
+            exception=traceback,
+        )
+
+
+class NearestNotFound(HTTPError):
+    def __init__(self, long: float, lat: float, traceback: str = None):
+        super().__init__(
+            http_status=404,
+            title="Nearest Not Found",
+            description=f"Could not find any partner near the given location: {long}, {lat}",
+            translation=f"Não foi possível encontrar nenhum parceiro próxima da localização fornecida: {long}, {lat}",
+            exception=traceback,
+        )
+
+
+class InvalidDocumentNumber(HTTPError):
+    def __init__(self, document: str, traceback: str = None):
+        super().__init__(
+            http_status=400,
+            title="Bad Request",
+            description=f"Received partner document number is not valid. Document: {document}",
+            translation=f"Documento do parceiro enviado não é válid. Documento: {document}",
+            exception=traceback,
+        )
+
+
+class DuplicateDocumentNumber(HTTPError):
+    def __init__(self, document: str, traceback: str = None):
+        super().__init__(
+            http_status=400,
+            title="Bad Request",
+            description=f"Duplicate entry found for document number: {document}",
+            translation=f"Entrada duplicada para o número de documento: {document}",
+            exception=traceback,
+        )

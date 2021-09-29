@@ -42,7 +42,9 @@ class Logger:
             LOG_LEVEL_INFO: cls.__logger.info,
             LOG_LEVEL_DEBUG: cls.__logger.debug,
         }
-        log_json = cls._format_message_attributes(message=message, level=level, **kwargs)
+        log_json = cls._format_message_attributes(
+            message=message, level=level, **kwargs
+        )
         log = level_selector.get(level, LOG_LEVEL_INFO)
         log(msg=log_json)
 

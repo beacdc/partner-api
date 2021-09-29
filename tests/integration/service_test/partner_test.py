@@ -49,6 +49,9 @@ async def test_search_partner(fake_db, fake_partner_1):
     assert str(insert.inserted_id) == response.get("id")
 
 
+# mongomock does not support querying geo objects therefor this test
+# is still unsupported
+
 # @pytest.mark.asyncio
 # async def test_search_nearest(fake_db, fake_partner_1, fake_partner_2, fake_partner_3):
 #     insert_1 = fake_db.db["Partner"].insert_one(fake_partner_1.dict(exclude_none=True))

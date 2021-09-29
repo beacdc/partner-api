@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-test: venv requirements-test.txt
+test:
 	( \
 		clear; \
 		echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
@@ -12,11 +12,10 @@ test: venv requirements-test.txt
 		echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
 		echo "┣╾> Running Tests... "; \
 		echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
-		cd src ; \
-		python -m pytest ../tests ; \
+		pytest; \
 	)
 
-local: venv requirements-dev.txt
+local:
 	( \
 		clear; \
 		echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"; \
